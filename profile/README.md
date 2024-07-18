@@ -1,5 +1,3 @@
-Sure, here is the information formatted as a README file in markdown:
-
 ````markdown
 # iFunza
 
