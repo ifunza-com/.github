@@ -1,4 +1,4 @@
-````markdown
+```markdown
 # iFunza
 
 Welcome to iFunza, a comprehensive school management platform designed to streamline various administrative and academic processes. Our platform offers a suite of modules including Digital Diary, Bus Tracker, Invoice, Messages, Gradebooks, and Expense Management, all integrated to provide a seamless experience for schools, teachers, students, and parents.
@@ -32,41 +32,9 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 - **Mercurius GraphQL**: GraphQL adapter for Fastify.
 - **Queues**: Implementing background jobs and tasks processing.
 
-## Getting Started
+### Mobile
 
-To get started with iFunza, follow these steps:
-
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/ifunza/ifunza.git
-   ```
-````
-
-2. **Install Dependencies**:
-
-   ```bash
-   cd ifunza
-   npm install
-   ```
-
-3. **Setup Environment Variables**: Create a `.env` file and add the necessary environment variables. Refer to `.env.example` for the required variables.
-
-4. **Run the Development Server**:
-
-   ```bash
-   npm run dev
-   ```
-
-5. **Build for Production**:
-
-   ```bash
-   npm run build
-   ```
-
-6. **Start the Production Server**:
-   ```bash
-   npm start
-   ```
+- **Flutter**: A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
 
 ## Contributing
 
@@ -81,8 +49,4 @@ We welcome contributions to improve iFunza. Please follow these steps to contrib
 ## License
 
 iFunza is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-```
-
-You can copy this code and use it as your README file for iFunza on GitHub.
 ```
