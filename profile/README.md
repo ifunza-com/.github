@@ -36,6 +36,17 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 - **Flutter**: A UI toolkit for building natively compiled applications for mobile, web, and desktop from a single codebase.
 
+#### Other Tools
+ - Mailgun
+ - Africa’s Talking
+ - Twilio
+ - Google Firebase
+ - AWS S3
+ - Vercel (education credentials)
+ - Pinata (education credentials)
+ - Canva (content creation)
+
+
 ## Contributing
 
 We welcome contributions to improve iFunza. Please follow these steps to contribute:
