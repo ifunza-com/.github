@@ -122,13 +122,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 ---
 
-### **Mermaid.js Code (for Markdown/Docs):**  
-<iframe 
-  src="https://www.mermaidchart.com/play?utm_source=mermaid_js&utm_medium=editor_selection&utm_campaign=playground#pako:eNp9kb0OgjAUhV-lYcIBH8DBwUAYlERE41AYCt4gCX8pVUOM7y5wW0VqYOiB06_3HOBpJNUFjJURliln9ZUc7bAk3eUyAQ_WUrd3_Z16johlrckOUpa0FIUEwO9ZAtHPwYFzAlFxoI416Ax4ZnkOgqJMOFxl1jfd3lBTmvuqESmHZiFPYOyoQc-qElNYZn5b9LA0p6xW5cDiOBOeT01196eD2tLyfje04QGUgrcURR-LvjZ0bON6qkVWAEUh21vBur-4JF5VZt2whiw_33TMawhGzyJYYxZR72y83mIDyN0" 
-  width="800" 
-  height="600"
-  frameborder="0">
-</iframe>
+![GraphQL Gateway Flow](./mer.png)
 
 ---
 
