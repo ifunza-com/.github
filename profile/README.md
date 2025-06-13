@@ -46,7 +46,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
  - Pinata (education credentials)
  - Canva (content creation)
 
-```
+```plainText
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                                       │
@@ -122,7 +122,6 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 │                     │      │                     │      │                     │
 └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
 ```
----
 
 
 1. **Each Microservice Has Its Own Postgres DB**  
