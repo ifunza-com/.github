@@ -154,6 +154,171 @@ We welcome contributions to improve iFunza. Please follow these steps to contrib
 4. Push to the branch (`git push origin feature-branch`).
 5. Create a new Pull Request.
 
+
+# RabbitMQ Installation & Configuration Guide for iFunza
+
+## Table of Contents
+1. [RabbitMQ Installation](#rabbitmq-installation)
+2. [Delayed Message Plugin Setup](#delayed-message-plugin-setup)
+3. [Post-Installation Configuration](#post-installation-configuration)
+4. [Verification](#verification)
+
+---
+
+## RabbitMQ Installation
+
+### Ubuntu/Debian Installation
+
+1. Create an installation script:
+
+```bash
+#!/bin/bash
+# install.sh - RabbitMQ installation script for Ubuntu/Debian
+
+# Add RabbitMQ repository signing key
+sudo apt-get install curl gnupg -y
+curl -1sLf "https://keys.openpgp.org/vks/v1/by-fingerprint/0A9AF2115F4687BD29803A206B73A36E6026DFCA" | sudo gpg --dearmor | sudo tee /usr/share/keyrings/com.rabbitmq.team.gpg > /dev/null
+
+# Add RabbitMQ apt repository
+sudo tee /etc/apt/sources.list.d/rabbitmq.list <<EOF
+deb [signed-by=/usr/share/keyrings/com.rabbitmq.team.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $(lsb_release -cs) main
+deb-src [signed-by=/usr/share/keyrings/com.rabbitmq.team.gpg] https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/ubuntu $(lsb_release -cs) main
+EOF
+
+# Install RabbitMQ server
+sudo apt-get update -y
+sudo apt-get install --fix-missing -y rabbitmq-server
+
+# Enable and start the service
+sudo systemctl enable rabbitmq-server
+sudo systemctl start rabbitmq-server
+
+echo "RabbitMQ installation completed successfully"
+```
+
+2. Make the script executable and run it:
+
+```bash
+chmod +x install.sh
+sudo ./install.sh
+```
+
+---
+
+## Delayed Message Plugin Setup
+
+### Plugin Installation
+
+1. Download the latest delayed message plugin:
+
+```bash
+# Determine RabbitMQ version
+RABBITMQ_VERSION=$(rabbitmqctl version | awk '{print $3}')
+
+# Download compatible plugin version
+wget https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v${RABBITMQ_VERSION}/rabbitmq_delayed_message_exchange-${RABBITMQ_VERSION}.ez -P /tmp
+```
+
+2. Install the plugin:
+
+```bash
+# Copy plugin to plugins directory
+sudo cp /tmp/rabbitmq_delayed_message_exchange-${RABBITMQ_VERSION}.ez $(rabbitmqctl eval 'io:format("~s~n", [code:lib_dir("rabbitmq_server")])')/plugins/
+
+# Enable plugin and restart
+sudo rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+sudo systemctl restart rabbitmq-server
+```
+
+---
+
+## Post-Installation Configuration
+
+### Management UI & User Setup
+
+1. Enable management plugin:
+
+```bash
+sudo rabbitmq-plugins enable rabbitmq_management
+```
+
+2. Create admin user (replace with secure credentials):
+
+```bash
+sudo rabbitmqctl add_user ifunza_admin YourSecurePassword123
+sudo rabbitmqctl set_user_tags ifunza_admin administrator
+sudo rabbitmqctl set_permissions -p / ifunza_admin ".*" ".*" ".*"
+```
+
+3. Disable default guest user (recommended for production):
+
+```bash
+sudo rabbitmqctl delete_user guest
+```
+
+---
+
+## Verification
+
+### Service Status Check
+
+```bash
+sudo systemctl status rabbitmq-server
+```
+
+### Plugin Verification
+
+```bash
+sudo rabbitmq-plugins list | grep delayed
+```
+Expected output:
+```
+[E*] rabbitmq_delayed_message_exchange
+```
+
+### Management UI Access
+
+Access the management console at:
+```
+http://<your-server-ip>:15672
+```
+
+### Connection Test
+
+Test using the management UI or with the RabbitMQ CLI:
+
+```bash
+sudo rabbitmqctl ping
+```
+
+---
+
+## Maintenance
+
+### Logs Location
+- Main log: `/var/log/rabbitmq/rabbit@$(hostname).log`
+- Startup log: `/var/log/rabbitmq/rabbit@$(hostname)_startup.log`
+
+### Common Commands
+```bash
+# Restart service
+sudo systemctl restart rabbitmq-server
+
+# Check queue status
+sudo rabbitmqctl list_queues
+
+# Check connections
+sudo rabbitmqctl list_connections
+```
+
+For production environments, consider configuring:
+- TLS for secure connections
+- Cluster setup for high availability
+- Proper monitoring and alerting
+
+Document version: 1.0  
+Last updated: ${current_date}
+
 ## License
 
 iFunza is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
