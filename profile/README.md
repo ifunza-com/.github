@@ -47,6 +47,110 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
  - Canva (content creation)
 
 
+
+### **Backend Architecture Diagram (Microservices with Dedicated Postgres DBs)**  
+```plaintext
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                               │
+│                                        **GraphQL Gateway**                                    │
+│                                                                                               │
+│  - Apollo Router / Apollo Federation                                                          │
+│  - Aggregates subgraphs from all services                                                    │
+│                                                                                               │
+└───────────────────────────────┬───────────────────────────────┬───────────────────────────────┘
+                                │                               │
+                                │                               │
+                                ▼                               ▼
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│                     │      │                     │      │                     │
+│    **Legacy**       │      │     **E-Store**     │      │     **Wallet**      │
+│   (Microservice)    │      │   (Microservice)    │      │   (Microservice)    │
+│                     │      │                     │      │                     │
+│  - Containerized    │      │  - Containerized    │      │  - Containerized    │
+│  - GraphQL Subgraph │      │  - GraphQL Subgraph │      │  - GraphQL Subgraph │
+│  - RabbitMQ Client  │      │  - RabbitMQ Client  │      │  - RabbitMQ Client  │
+│                     │      │                     │      │                     │
+└──────────┬──────────┘      └──────────┬──────────┘      └──────────┬──────────┘
+           │                            │                            │
+           │                            │                            │
+           ▼                            ▼                            ▼
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│                     │      │                     │      │                     │
+│   **Postgres**      │      │   **Postgres**      │      │   **Postgres**      │
+│  (Legacy DB)        │      │  (E-Store DB)       │      │  (Wallet DB)        │
+│                     │      │                     │      │                     │
+└─────────────────────┘      └─────────────────────┘      └─────────────────────┘
+           ▲                            ▲                            ▲
+           │                            │                            │
+           └──────────────┬─────────────┘                            │
+                          │                                          │
+                          ▼                                          ▼
+┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                               │
+│                                  **RabbitMQ (Message Broker)**                                │
+│                                                                                               │
+│  - Handles async events (e.g., "order_created", "payment_processed")                          │
+│                                                                                               │
+└───────────────────────────────────────────────────────────────────────────────────────────────┘
+                                      ▲
+                                      │
+                                      ▼
+┌─────────────────────┐      ┌─────────────────────┐
+│                     │      │                     │
+│    **Sentry**       │      │   **Uptime Kuma**   │
+│  (Error Tracking)   │      │  (Uptime Monitoring)│
+│                     │      │                     │
+└─────────────────────┘      └─────────────────────┘
+```
+
+---
+
+
+1. **Each Microservice Has Its Own Postgres DB**  
+   - No shared database → better isolation.  
+   - Example:  
+     - `Legacy` → `Legacy DB`  
+     - `E-Store` → `E-Store DB`  
+     - `Wallet` → `Wallet DB`  
+
+2. **RabbitMQ Still Connects All Services**  
+   - Used for cross-service events (e.g., `E-Store` emits an event → `Wallet` consumes it).  
+
+3. **Observability**  
+   - **Sentry**: Logs errors from all services.  
+   - **Uptime Kuma**: Tracks health of each service + dependencies (DBs, RabbitMQ).  
+
+---
+
+### **Mermaid.js Code (for Markdown/Docs):**  
+```mermaid
+graph TD
+    Gateway[GraphQL Gateway] --> Legacy[Legacy Service]
+    Gateway --> EStore[E-Store Service]
+    Gateway --> Wallet[Wallet Service]
+    
+    Legacy --> LegacyDB[(Legacy Postgres)]
+    EStore --> EStoreDB[(E-Store Postgres)]
+    Wallet --> WalletDB[(Wallet Postgres)]
+    
+    Legacy --> RabbitMQ[(RabbitMQ)]
+    EStore --> RabbitMQ
+    Wallet --> RabbitMQ
+    
+    Legacy --> Sentry[Sentry]
+    EStore --> Sentry
+    Wallet --> Sentry
+    
+    Uptime[Uptime Kuma] -. Monitors .-> Legacy
+    Uptime -. Monitors .-> EStore
+    Uptime -. Monitors .-> Wallet
+    Uptime -. Monitors .-> RabbitMQ
+```
+
+---
+
+
+
 ## Contributing
 
 We welcome contributions to improve iFunza. Please follow these steps to contribute:
