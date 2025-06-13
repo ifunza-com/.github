@@ -235,7 +235,8 @@ sudo ./install.sh
 
 ```bash
 # Determine RabbitMQ version
-RABBITMQ_VERSION=$(rabbitmqctl version | awk '{print $3}')
+RABBITMQ_VERSION=$(sudo rabbitmqctl status | sed -n 's/.*RabbitMQ version: \([0-9.]*\).*/\1/p')
+
 
 # Download compatible plugin version
 wget https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/download/v${RABBITMQ_VERSION}/rabbitmq_delayed_message_exchange-${RABBITMQ_VERSION}.ez -P /tmp
@@ -248,8 +249,9 @@ wget https://github.com/rabbitmq/rabbitmq-delayed-message-exchange/releases/down
 sudo cp /tmp/rabbitmq_delayed_message_exchange-${RABBITMQ_VERSION}.ez $(rabbitmqctl eval 'io:format("~s~n", [code:lib_dir("rabbitmq_server")])')/plugins/
 
 # Enable plugin and restart
-sudo rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 sudo systemctl restart rabbitmq-server
+sudo rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+
 ```
 
 ---
@@ -303,6 +305,10 @@ Expected output:
 Access the management console at:
 ```
 http://<your-server-ip>:15672
+```
+Access on the code at:
+```
+"amqp://myuser:mypassword@48.217.51.197";
 ```
 
 ### Connection Test
