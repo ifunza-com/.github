@@ -148,7 +148,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 We welcome contributions to improve iFunza. Please follow these steps to contribute:
 
-1. Fork the repository.
+1. Clone the repository.
 2. Create a new branch (`git checkout -b feature-branch`).
 3. Commit your changes (`git commit -am 'Add new feature'`).
 4. Push to the branch (`git push origin feature-branch`).
