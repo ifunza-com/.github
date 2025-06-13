@@ -48,16 +48,36 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 
 
-### **Backend Architecture Diagram (Microservices with Dedicated Postgres DBs)**  
-```plaintext
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                               │
-│                                        **GraphQL Gateway**                                    │
-│                                                                                               │
-│  - Apollo Router / Apollo Federation                                                          │
-│  - Aggregates subgraphs from all services                                                    │
-│                                                                                               │
-└───────────────────────────────┬───────────────────────────────┬───────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                       │
+│                                           **Frontend Clients**                                         │
+│                                                                                                       │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────┘
+                               ▲                                      ▲
+                               │                                      │
+                               │                                      │
+┌───────────────────────┐      │      ┌───────────────────────┐      │      ┌───────────────────────┐
+│                       │      │      │                       │      │      │                       │
+│   **Web App**         │      │      │    **Mobile App**     │      │      │    **Admin Dashboard** │
+│   (Next.js + TS)      │──────┘      │    (Flutter)          │──────┘      │    (Next.js + TS)      │
+│                       │             │                       │             │                       │
+│  - Docker Container   │             │  - GraphQL Client     │             │  - Docker Container   │
+│  - GraphQL Client     │             │  - Sentry Integration │             │  - GraphQL Client     │
+│  - Sentry Integration │             │                       │             │  - Sentry Integration │
+│                       │             └───────────────────────┘             │                       │
+└───────────────────────┘                                                  └───────────────────────┘
+                               ▲                                      ▲
+                               │                                      │
+                               │                                      │
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                       │
+│                                          **GraphQL Gateway**                                          │
+│                                                                                                       │
+│  - Apollo Router / Apollo Federation                                                                  │
+│  - Aggregates subgraphs (Legacy, E-Store, Wallet)                                                     │
+│  - Handles Auth, Rate Limiting                                                                        │
+│                                                                                                       │
+└───────────────────────────────┬───────────────────────────────┬───────────────────────────────────────┘
                                 │                               │
                                 │                               │
                                 ▼                               ▼
@@ -66,7 +86,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 │    **Legacy**       │      │     **E-Store**     │      │     **Wallet**      │
 │   (Microservice)    │      │   (Microservice)    │      │   (Microservice)    │
 │                     │      │                     │      │                     │
-│  - Containerized    │      │  - Containerized    │      │  - Containerized    │
+│  - Docker Container │      │  - Docker Container │      │  - Docker Container │
 │  - GraphQL Subgraph │      │  - GraphQL Subgraph │      │  - GraphQL Subgraph │
 │  - RabbitMQ Client  │      │  - RabbitMQ Client  │      │  - RabbitMQ Client  │
 │                     │      │                     │      │                     │
@@ -85,23 +105,22 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
            └──────────────┬─────────────┘                            │
                           │                                          │
                           ▼                                          ▼
-┌───────────────────────────────────────────────────────────────────────────────────────────────┐
-│                                                                                               │
-│                                  **RabbitMQ (Message Broker)**                                │
-│                                                                                               │
-│  - Handles async events (e.g., "order_created", "payment_processed")                          │
-│                                                                                               │
-└───────────────────────────────────────────────────────────────────────────────────────────────┘
+┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                                                                                       │
+│                                  **RabbitMQ (Message Broker)**                                        │
+│                                                                                                       │
+│  - Async events (e.g., "order_created", "payment_processed")                                          │
+│                                                                                                       │
+└───────────────────────────────────────────────────────────────────────────────────────────────────────┘
                                       ▲
                                       │
                                       ▼
-┌─────────────────────┐      ┌─────────────────────┐
-│                     │      │                     │
-│    **Sentry**       │      │   **Uptime Kuma**   │
-│  (Error Tracking)   │      │  (Uptime Monitoring)│
-│                     │      │                     │
-└─────────────────────┘      └─────────────────────┘
-```
+┌─────────────────────┐      ┌─────────────────────┐      ┌─────────────────────┐
+│                     │      │                     │      │                     │
+│    **Sentry**       │      │   **Uptime Kuma**   │      │    **CI/CD**        │
+│  (Error Tracking)   │      │  (Uptime Monitoring)│      │  (GitHub Actions)   │
+│                     │      │                     │      │                     │
+└─────────────────────┘      └─────────────────────┘      └─────────────────────┘
 
 ---
 
@@ -122,7 +141,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 ---
 
-![GraphQL Gateway Flow](./mer.png)
+![GraphQL Gateway Flow](./mermaidchart.png)
 
 ---
 
