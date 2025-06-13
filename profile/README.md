@@ -141,7 +141,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 
 
 
-![GraphQL Gateway Flow](./mer.png)
+![GraphQL Gateway Flow](https://github.com/ifunza-com/.github/blob/main/profile/mermaidchart.png)
 <img src="./mer.png" alt="Architecture Diagram" width="800">
 
 
