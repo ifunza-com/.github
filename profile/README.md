@@ -139,11 +139,10 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
    - **Sentry**: Logs errors from all services.  
    - **Uptime Kuma**: Tracks health of each service + dependencies (DBs, RabbitMQ).  
 
----
+
 
 ![GraphQL Gateway Flow](./mer.png)
 
----
 
 
 
