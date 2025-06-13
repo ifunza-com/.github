@@ -46,7 +46,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
  - Pinata (education credentials)
  - Canva (content creation)
 
-
+```
 
 ┌───────────────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                                                                                       │
@@ -121,7 +121,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
 │  (Error Tracking)   │      │  (Uptime Monitoring)│      │  (GitHub Actions)   │
 │                     │      │                     │      │                     │
 └─────────────────────┘      └─────────────────────┘      └─────────────────────┘
-
+```
 ---
 
 
