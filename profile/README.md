@@ -140,9 +140,7 @@ Welcome to iFunza, a comprehensive school management platform designed to stream
    - **Uptime Kuma**: Tracks health of each service + dependencies (DBs, RabbitMQ).  
 
 
-
-![GraphQL Gateway Flow](https://github.com/ifunza-com/.github/blob/main/profile/mermaidchart.png)
-<img src="https://github.com/ifunza-com/.github/blob/main/profile/mermaidchart.png" alt="Architecture Diagram" width="800">
+![GraphQL Gateway Flow](https://raw.githubusercontent.com/ifunza-com/.github/main/profile/mermaidchart.png)
 
 
 
